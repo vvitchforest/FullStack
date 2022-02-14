@@ -42,16 +42,27 @@ const App = () => {
         updatePerson();
       }
     } else {
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-        setFilterString("");
-        setNotificationMessage(` Added ${personObject.name}`);
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
-      });
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+          setFilterString("");
+          setNotificationMessage(` Added ${personObject.name}`);
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          setNotificationMessage(error.response.data.error);
+          setError(true);
+          setTimeout(() => {
+            setNotificationMessage(null);
+            setError(false);
+          }, 5000);
+        });
     }
   };
 
@@ -92,14 +103,24 @@ const App = () => {
         }, 5000);
       })
       .catch((error) => {
-        setNotificationMessage(`${person.name} already deleted from server`);
-        setNewName("");
-        setNewNumber("");
-        setError(true);
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
-        setPersons(persons.filter((p) => p.id !== person.id));
+        console.log("error", error.response);
+        if (error.response.status === 400) {
+          setError(true);
+          setNotificationMessage(error.response.data.error);
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+        } else if (error.response.status === 500) {
+          setError(true);
+          setNotificationMessage(`${person.name} already deleted from server`);
+          setTimeout(() => {
+            setNotificationMessage(null);
+            setNewName("");
+            setNewNumber("");
+            setError(false);
+          }, 5000);
+          setPersons(persons.filter((p) => p.id !== person.id));
+        }
       });
   };
 
@@ -119,7 +140,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={notificationMessage} error={error}/>
+      <Notification message={notificationMessage} error={error} />
       <Filter filter={filterString} handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm
