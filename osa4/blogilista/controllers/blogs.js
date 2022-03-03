@@ -46,9 +46,9 @@ blogsRouter.delete('/:id', tokenExtractor, userExtractor, async (request, respon
 
   if(blogs.user.toString() === userId.toString()) {
     await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end() 
+    response.status(204).end()
   } else {
-    response.status(401).json({ error: 'deleting unauthorised'})
+    response.status(401).json({ error: 'deleting unauthorised' })
   }
 })
 
@@ -66,10 +66,10 @@ blogsRouter.put('/:id', tokenExtractor, userExtractor, async (request, response)
   }
 
   if(blogs.user.toString() === userId.toString()) {
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true, runValidators: true})
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true, runValidators: true })
     response.json(updatedBlog)
   } else {
-    response.status(401).json({ error: 'updating unauthorised'})
+    response.status(401).json({ error: 'updating unauthorised' })
   }
 })
 

@@ -1,7 +1,5 @@
-const { all } = require("express/lib/application");
-
-const dummy = (blogs) => {
-  return 1;
+const dummy = () => {
+  return 1
 }
 
 const totalLikes = (blogs) => {
@@ -9,16 +7,16 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
-  return blogs.reduce((max, blog) => max.likes > blog.likes ? max : blog, 0) 
+  return blogs.reduce((max, blog) => max.likes > blog.likes ? max : blog, 0)
 }
 
 const mostBlogs = (blogs) => {
   const blogCounts = blogs.reduce((allBlogs, blog) => {
-    (blog.author in allBlogs) 
-    ? allBlogs[blog.author]++
-    : allBlogs[blog.author] = 1
-    
-  return allBlogs
+    (blog.author in allBlogs)
+      ? allBlogs[blog.author]++
+      : allBlogs[blog.author] = 1
+
+    return allBlogs
   }, {})
 
   const mostAuthored = Object.keys(blogCounts).reduce((max, author) => blogCounts[max] > blogCounts[author] ? max : author)
@@ -26,7 +24,7 @@ const mostBlogs = (blogs) => {
     author: mostAuthored,
     blogs: blogCounts[mostAuthored]
   }
-};
+}
 
 
 const mostLikes = (blogs) => {
@@ -50,11 +48,9 @@ const mostLikes = (blogs) => {
       }
     }
   }
-  console.log("most liked author is ", mostLikedAuthor, typeof(mostLikedAuthor))
+  console.log('most liked author is ', mostLikedAuthor, typeof(mostLikedAuthor))
   return mostLikedAuthor
 }
-
-
 
 module.exports = {
   dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes

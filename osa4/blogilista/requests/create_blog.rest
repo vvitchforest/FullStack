@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impva3V2YWFuIiwiaWQiOiI2MjIwZDE4MDhjN2ViYzVkNmYzMTczZWQiLCJpYXQiOjE2NDYzMTc5NzAsImV4cCI6MTY0NjMyMTU3MH0.Sa_5i7U9FMw5MZP-fGa8-TWGZAhCIdSsPnHPvM4Pd6c
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlyaW5ha29uIiwiaWQiOiI2MjEzYzUzYTUyOTg5ODA1NTU5MGNjMWMiLCJpYXQiOjE2NDYzMjIwNzksImV4cCI6MTY0NjMyNTY3OX0.5vjHpzk29aytfoQIIVrtSG79jU5GUIjmKOgrFy5TfUo
 
 {
   "title": "uusi 123",

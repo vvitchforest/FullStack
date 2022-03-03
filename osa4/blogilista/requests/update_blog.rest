@@ -1,10 +1,10 @@
-PUT http://localhost:3003/api/blogs/621a003b1bbfd6953e14d520
+PUT http://localhost:3003/api/blogs/6220e1c4dac6f18c02adc603
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlyaW5ha29uIiwiaWQiOiI2MjEzYzUzYTUyOTg5ODA1NTU5MGNjMWMiLCJpYXQiOjE2NDYzMTg1OTYsImV4cCI6MTY0NjMyMjE5Nn0.yyeNHOC7_9WNmykh5yeFDmymC-Ih0AdpsL2KeO2g008
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlyaW5ha29uIiwiaWQiOiI2MjEzYzUzYTUyOTg5ODA1NTU5MGNjMWMiLCJpYXQiOjE2NDYzMjIyMzQsImV4cCI6MTY0NjMyNTgzNH0.iYr4xwC5nkwlKxXbqYNJHm8UCmEhgbnl6-yv5uJOGAE
 
 {
-  "title": "toimiiko nyt",
+  "title": "toimiiko",
   "author": "test",
-  "url": "qwe" ,
-  "likes": 100
+  "url": "test" ,
+  "likes": 45
 }

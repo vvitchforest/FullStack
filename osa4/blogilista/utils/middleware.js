@@ -1,4 +1,3 @@
-const { response } = require('express')
 const morgan = require('morgan')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
@@ -50,28 +49,28 @@ const tokenExtractor = (request, response, next) => {
   }
   else {
     request.token = null
-    return response.status(401).json({ error: 'token missing' })   
+    return response.status(401).json({ error: 'token missing' })
   }
   //Siirtyy userExtractor-middlewareen, joka identifioi käyttäjän tokenin perusteella
   next()
 }
 
 const userExtractor = async (request, response, next) => {
-    const decodedUserFromToken = jwt.verify(request.token, process.env.SECRET)
-    if(decodedUserFromToken) {
-      request.user = await User.findById(decodedUserFromToken.id)
-    } 
-    else {
-      request.user = null
-    }
-    //Siirtyy ErrorHandler-middlewareen, joka palauttaa oikean virheen
-    next() 
+  const decodedUserFromToken = jwt.verify(request.token, process.env.SECRET)
+  if(decodedUserFromToken) {
+    request.user = await User.findById(decodedUserFromToken.id)
+  }
+  else {
+    request.user = null
+  }
+  //Siirtyy ErrorHandler-middlewareen, joka palauttaa oikean virheen
+  next()
 }
 
 module.exports = {
   morganLogger,
   unknownEndpoint,
   errorHandler,
-  tokenExtractor, 
+  tokenExtractor,
   userExtractor
 }
