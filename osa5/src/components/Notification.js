@@ -1,26 +1,31 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Notification = ({ alert }) => {
   const notificationStyle = {
     color:
-      (alert.style === "error" && "red") ||
-      (alert.style === "success" && "green"),
-    backgroundColor: "lightgrey",
+      (alert.style === 'error' && 'red') ||
+      (alert.style === 'success' && 'green'),
+    backgroundColor: 'lightgrey',
     border:
-      (alert.style === "error" && "1px solid red") ||
-      (alert.style === "success" && "1px solid green"),
+      (alert.style === 'error' && '1px solid red') ||
+      (alert.style === 'success' && '1px solid green'),
     borderRadius: 5,
     margin: 5,
-    padding: "5px 10px",
+    padding: '5px 10px',
     fontSize: 20,
-    width: "50%",
-  };
-
-  if (alert.message === null) {
-    return null;
+    width: '50%',
   }
 
-  return <div style={notificationStyle}>{alert.message}</div>;
-};
+  if (alert.message === null) {
+    return null
+  }
 
-export default Notification;
+  return <div style={notificationStyle}>{alert.message}</div>
+}
+
+Notification.propTypes = {
+  alert: PropTypes.object.isRequired
+}
+
+export default Notification
