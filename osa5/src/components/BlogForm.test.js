@@ -4,27 +4,31 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BlogForm from './BlogForm'
 
-test('Blog form test', () => {
-  const createNewBlog = jest.fn()
+// 5.16
+describe('BlogForm component', () => {
 
-  render(<BlogForm createNewBlog={createNewBlog} />)
-  screen.debug()
+  test('Blog form test',  async () => {
+    const createNewBlog = jest.fn()
+    const user = userEvent.setup()
 
-  const titleInput = screen.getByTestId('input-title')
-  const authorInput = screen.getByTestId('input-author')
-  const urlInput = screen.getByTestId('input-url')
-  const submitBtn = screen.getByText('add blog')
+    render(<BlogForm createNewBlog={createNewBlog} />)
+    screen.debug()
 
-  userEvent.type(titleInput, 'testing blog form')
-  userEvent.type(authorInput, 'jokuvaan')
-  userEvent.type(urlInput, 'www')
-  userEvent.click(submitBtn)
+    const titleInput = screen.getByTestId('input-title')
+    const authorInput = screen.getByTestId('input-author')
+    const urlInput = screen.getByTestId('input-url')
+    const submitBtn = screen.getByText('add blog')
 
-  expect(createNewBlog.mock.calls).toHaveLength(1)
-  console.log(createNewBlog.mock.calls[0][0])
-  expect(createNewBlog.mock.calls[0][0]).toEqual({
-    title: 'testing blog form',
-    author: 'jokuvaan',
-    url: 'www'
+    await user.type(titleInput, 'testing blog form')
+    await user.type(authorInput, 'jokuvaan')
+    await user.type(urlInput, 'www')
+    await user.click(submitBtn)
+
+    expect(createNewBlog.mock.calls).toHaveLength(1)
+    expect(createNewBlog.mock.calls[0][0]).toEqual({
+      title: 'testing blog form',
+      author: 'jokuvaan',
+      url: 'www'
+    })
   })
 })

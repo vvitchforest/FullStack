@@ -19,7 +19,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const handleUpdate = (event) => {
     event.preventDefault()
     const updated = { ...blog, likes: (blog.likes += 1) }
-    console.log(updated)
+    console.log('Updated blog', updated)
     updateBlog(blog.id, updated)
   }
 
@@ -30,23 +30,22 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog-container'>
       <div className="blog-info">
-        <div>
-          <span>{blog.title}</span>
-          <button onClick={toggleShow}>{show ? 'hide' : 'view'}</button>
-        </div>
-        <span>{blog.author}</span>
+        <span>{blog.title}</span>
+        <button onClick={toggleShow}>{show ? 'hide' : 'view'}</button>
+        <div>{blog.author}</div>
       </div>
       {show && (
         <div className="blog-extended-info">
           <a href="#">{blog.url}</a>
           <div>
             <span>{blog.likes} likes</span>
-            <button onClick={handleUpdate} id='like-btn'>like</button>
+            <button onClick={handleUpdate} className='like-btn'>like</button>
           </div>
           {user.username === blog.user.username && (
             <button
+              className='remove-btn'
               onClick={handleDelete}
               style={{
                 backgroundColor: '#0275d8',

@@ -53,14 +53,20 @@ blogsRouter.delete('/:id', tokenExtractor, userExtractor, async (request, respon
 })
 
 //PUT blog
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) => {
   const body = request.body
 
   const blog = {
-    likes: body.likes
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true, runValidators: true })
+  const updatedBlog = await Blog
+    .findByIdAndUpdate(request.params.id, blog, { new: true })
+    .populate('user', { username: 1, name: 1 })
+  console.log('UPDATED', updatedBlog)
   response.json(updatedBlog)
 })
 

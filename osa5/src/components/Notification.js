@@ -21,7 +21,7 @@ const Notification = ({ alert }) => {
     return null
   }
 
-  return <div style={notificationStyle}>{alert.message}</div>
+  return <div style={notificationStyle} className='notification'>{alert.message}</div>
 }
 
 Notification.propTypes = {
