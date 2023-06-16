@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { useDispatch } from 'react-redux'
+import { displayNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
+const Blog = ({ blog, user }) => {
   const [show, setShow] = useState(false)
+
+  const dispatch = useDispatch()
 
   const blogStyle = {
     paddingTop: 10,
@@ -16,17 +21,23 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
     setShow(!show)
   }
 
-  const handleUpdate = (event) => {
+  const handleLike = (event) => {
     event.preventDefault()
-    const updated = { ...blog, likes: (blog.likes += 1) }
-    console.log('Updated blog', updated)
-    updateBlog(blog.id, updated)
+    try {
+      dispatch(likeBlog(blog))
+    } catch (exception) {
+      dispatch(displayNotification('update failed', 'error'))
+    }
   }
 
   const handleDelete = (event) => {
     event.preventDefault()
-    if (window.confirm(`remove blog ${blog.title} by ${blog.author}?`))
-      deleteBlog(blog.id)
+    try {
+      if (window.confirm(`remove blog ${blog.title} by ${blog.author}?`))
+        dispatch(removeBlog(blog.id))
+    } catch (exception) {
+      dispatch(displayNotification('delete failed', 'error'))
+    }
   }
 
   return (
@@ -41,7 +52,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
           <a href="#">{blog.url}</a>
           <div>
             <span>{blog.likes} likes</span>
-            <button onClick={handleUpdate} className="like-btn">
+            <button onClick={handleLike} className="like-btn">
               like
             </button>
           </div>
@@ -68,8 +79,6 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 }
 

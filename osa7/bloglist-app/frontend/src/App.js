@@ -6,11 +6,11 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { displayNotification } from './reducers/notificationReducer'
+import { initializeBlogs, createBlog } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -18,17 +18,15 @@ const App = () => {
   const blogFormRef = useRef()
   const dispatch = useDispatch()
 
-  const sortedBlogs = [...blogs].sort((a, b) => {
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
+  const blogs = useSelector((state) => state.blogs)
+
+  const sortedBlogs = blogs.toSorted((a, b) => {
     return b.likes - a.likes
   })
-
-  useEffect(() => {
-    const getAllBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
-    getAllBlogs()
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -68,11 +66,11 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = async (blogObj) => {
+  const addBlog = (blog) => {
     try {
       blogFormRef.current.toggleVisibility()
-      const blog = await blogService.create(blogObj)
-      setBlogs(blogs.concat(blog))
+      dispatch(createBlog(blog))
+      console.log(user)
       dispatch(
         displayNotification(
           `a new blog ${blog.title} by ${blog.author} added`,
@@ -86,29 +84,6 @@ const App = () => {
           'error'
         )
       )
-    }
-  }
-
-  const updateBlog = async (id, blogObj) => {
-    try {
-      const returnedBlog = await blogService.update(id, blogObj)
-      const updatedBlogs = blogs.map((blog) =>
-        blog.id !== returnedBlog.id ? blog : returnedBlog
-      )
-      setBlogs(updatedBlogs)
-      console.log(updatedBlogs)
-    } catch (exception) {
-      dispatch(displayNotification('update failed', 'error'))
-    }
-  }
-
-  const deleteBlog = async (id) => {
-    try {
-      await blogService.deleteById(id)
-      const blogsAfter = blogs.filter((blog) => blog.id !== id)
-      setBlogs(blogsAfter)
-    } catch (exception) {
-      dispatch(displayNotification('delete failed', 'error'))
     }
   }
 
@@ -135,13 +110,7 @@ const App = () => {
               <button onClick={handleLogout}>logout</button>
             </div>
             {sortedBlogs.map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                updateBlog={updateBlog}
-                deleteBlog={deleteBlog}
-                user={user}
-              />
+              <Blog key={blog.id} blog={blog} user={user} />
             ))}
           </div>
         </>
