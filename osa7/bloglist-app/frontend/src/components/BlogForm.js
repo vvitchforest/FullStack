@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
 
-const BlogForm = ({ createNewBlog }) => {
+const BlogForm = ({ blogFormRef }) => {
   let initialValues = {
     title: '',
     author: '',
@@ -9,6 +11,8 @@ const BlogForm = ({ createNewBlog }) => {
   }
 
   const [newBlog, setNewBlog] = useState(initialValues)
+
+  const dispatch = useDispatch()
 
   const handleTitleChange = (event) => {
     setNewBlog({ ...newBlog, title: event.target.value })
@@ -22,16 +26,17 @@ const BlogForm = ({ createNewBlog }) => {
     setNewBlog({ ...newBlog, url: event.target.value })
   }
 
-  const addBlog = (event) => {
+  const addNewBlog = (event) => {
     event.preventDefault()
-    createNewBlog(newBlog)
+    blogFormRef.current.toggleVisibility()
+    dispatch(createBlog(newBlog))
     setNewBlog(initialValues)
   }
 
   return (
     <>
       <h2>create new</h2>
-      <form onSubmit={addBlog}>
+      <form ref={blogFormRef} onSubmit={addNewBlog}>
         <div>
           title
           <input
@@ -72,7 +77,7 @@ const BlogForm = ({ createNewBlog }) => {
 }
 
 BlogForm.propTypes = {
-  createNewBlog: PropTypes.func.isRequired
+  blogFormRef: PropTypes.any.isRequired
 }
 
 export default BlogForm

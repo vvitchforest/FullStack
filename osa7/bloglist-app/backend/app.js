@@ -28,6 +28,8 @@ app.use(middleware.morganLogger)
 //app.use(middleware.tokenExtractor)
 //app.use(middleware.userExtractor)
 
+// localhost:3003/api/login
+
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)

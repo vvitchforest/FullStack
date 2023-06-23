@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
+import { displayNotification } from './notificationReducer'
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -41,8 +42,25 @@ export const initializeBlogs = () => {
 
 export const createBlog = (blogObject) => {
   return async (dispatch) => {
-    const newBlog = await blogService.create(blogObject)
-    dispatch(appendBlog(newBlog))
+    try {
+      const newBlog = await blogService.create(blogObject)
+      dispatch(appendBlog(newBlog))
+      console.log('blog', newBlog)
+      dispatch(
+        displayNotification(
+          `a new blog ${newBlog.title} by ${newBlog.author} added`,
+          'success'
+        )
+      )
+    } catch (error) {
+      console.log(error.message)
+      dispatch(
+        displayNotification(
+          'title, author or url missing or incorrect',
+          'error'
+        )
+      )
+    }
   }
 }
 
@@ -52,7 +70,6 @@ export const likeBlog = (blogObject) => {
       ...blogObject,
       likes: blogObject.likes + 1
     }
-
     const updatedBlog = await blogService.update(blogToUpdate.id, blogToUpdate)
     dispatch(updateBlog(updatedBlog))
   }
@@ -60,8 +77,12 @@ export const likeBlog = (blogObject) => {
 
 export const removeBlog = (id) => {
   return async (dispatch) => {
-    await blogService.deleteById(id)
-    dispatch(deleteBlog(id))
+    try {
+      await blogService.deleteById(id)
+      dispatch(deleteBlog(id))
+    } catch (error) {
+      dispatch(displayNotification('delete failed', 'error'))
+    }
   }
 }
 

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
-import { useDispatch } from 'react-redux'
-import { displayNotification } from '../reducers/notificationReducer'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
   const [show, setShow] = useState(false)
 
   const dispatch = useDispatch()
+
+  const loggedUser = useSelector((state) => state.login)
 
   const blogStyle = {
     paddingTop: 10,
@@ -23,21 +24,13 @@ const Blog = ({ blog, user }) => {
 
   const handleLike = (event) => {
     event.preventDefault()
-    try {
-      dispatch(likeBlog(blog))
-    } catch (exception) {
-      dispatch(displayNotification('update failed', 'error'))
-    }
+    dispatch(likeBlog(blog))
   }
 
   const handleDelete = (event) => {
     event.preventDefault()
-    try {
-      if (window.confirm(`remove blog ${blog.title} by ${blog.author}?`))
-        dispatch(removeBlog(blog.id))
-    } catch (exception) {
-      dispatch(displayNotification('delete failed', 'error'))
-    }
+    if (window.confirm(`remove blog ${blog.title} by ${blog.author}?`))
+      dispatch(removeBlog(blog.id))
   }
 
   return (
@@ -56,7 +49,7 @@ const Blog = ({ blog, user }) => {
               like
             </button>
           </div>
-          {user.username === blog.user.username && (
+          {loggedUser.username === blog.user.username && (
             <button
               className="remove-btn"
               onClick={handleDelete}
@@ -78,8 +71,7 @@ const Blog = ({ blog, user }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  blog: PropTypes.object.isRequired
 }
 
 export default Blog
