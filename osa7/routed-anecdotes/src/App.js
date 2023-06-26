@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Routes, Route, Link, useMatch, useNavigate} from 'react-router-dom'
+import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom'
 import { useField } from './hooks'
 
 const Menu = () => {
@@ -8,25 +8,31 @@ const Menu = () => {
   }
   return (
     <div>
-      <Link to='/' style={padding}>anecdotes</Link>
-      <Link to='/create' style={padding}>create new</Link>
-      <Link to='/about' style={padding}>about</Link>
+      <Link to="/" style={padding}>
+        anecdotes
+      </Link>
+      <Link to="/create" style={padding}>
+        create new
+      </Link>
+      <Link to="/about" style={padding}>
+        about
+      </Link>
     </div>
   )
 }
 
-
 const Anecdote = ({ anecdote }) => {
-  return(
+  return (
     <div>
-      <h2>{anecdote.content} by {anecdote.author}</h2>
+      <h2>
+        {anecdote.content} by {anecdote.author}
+      </h2>
       <p>has {anecdote.votes} votes</p>
-      <div style={{paddingBottom: '10px' }}>
+      <div style={{ paddingBottom: '10px' }}>
         <span>for more info see </span>
         <a href={anecdote.info}>{anecdote.info}</a>
       </div>
     </div>
-
   )
 }
 
@@ -34,10 +40,11 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => (
-      <li key={anecdote.id}>
-        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-      </li>))}
+      {anecdotes.map((anecdote) => (
+        <li key={anecdote.id}>
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
+      ))}
     </ul>
   </div>
 )
@@ -47,25 +54,35 @@ const About = () => (
     <h2>About anecdote app</h2>
     <p>According to Wikipedia:</p>
 
-    <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
+    <em>
+      An anecdote is a brief, revealing account of an individual person or an
+      incident. Occasionally humorous, anecdotes differ from jokes because their
+      primary purpose is not simply to provoke laughter but to reveal a truth
+      more general than the brief tale itself, such as to characterize a person
+      by delineating a specific quirk or trait, to communicate an abstract idea
+      about a person, place, or thing through the concrete details of a short
+      narrative. An anecdote is "a story with a point."
+    </em>
 
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+    <p>
+      Software engineering is full of excellent anecdotes, at this app you can
+      find the best and add more.
+    </p>
   </div>
 )
 
 const Footer = () => (
   <div>
-    Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
-
-    See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
+    Anecdote app for <a href="https://fullstackopen.com/">Full Stack Open</a>.
+    See{' '}
+    <a href="https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js">
+      https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js
+    </a>{' '}
+    for the source code.
   </div>
 )
 
 const CreateNew = (props) => {
-
   const navigate = useNavigate()
 
   const content = useField('content')
@@ -89,7 +106,7 @@ const CreateNew = (props) => {
     e.preventDefault()
     content.onReset()
     author.onReset()
-    info.onReset()  
+    info.onReset()
   }
 
   return (
@@ -106,10 +123,10 @@ const CreateNew = (props) => {
         </div>
         <div>
           url for more info
-          <input {...info}/>
+          <input {...info} />
         </div>
-        <button type='submit'>create</button>
-        <button type='reset'>reset</button>
+        <button type="submit">create</button>
+        <button type="reset">reset</button>
       </form>
     </div>
   )
@@ -137,10 +154,10 @@ const App = () => {
 
   const match = useMatch('anecdotes/:id')
 
-  const anecdote = match 
-  ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id))
-  : null
-  
+  const anecdote = match
+    ? anecdotes.find((anecdote) => anecdote.id === Number(match.params.id))
+    : null
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -150,8 +167,7 @@ const App = () => {
     }, 5000)
   }
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+  const anecdoteById = (id) => anecdotes.find((a) => a.id === id)
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -161,7 +177,7 @@ const App = () => {
       votes: anecdote.votes + 1
     }
 
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)))
   }
 
   console.log(anecdotes)
@@ -170,12 +186,22 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      {notification && 
-        <div style={{ marginTop: '10px', padding: '10px', border: '1px solid green'}}>
+      {notification && (
+        <div
+          style={{
+            marginTop: '10px',
+            padding: '10px',
+            border: '1px solid green'
+          }}
+        >
           {notification}
-        </div>}
+        </div>
+      )}
       <Routes>
-        <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} />}/>
+        <Route
+          path="/anecdotes/:id"
+          element={<Anecdote anecdote={anecdote} />}
+        />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />

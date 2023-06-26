@@ -1,27 +1,22 @@
 import { useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
-import Blog from './components/Blog'
+import Blogs from './pages/Blogs'
+import Users from './pages/Users'
+import User from './pages/User'
+import Blog from './pages/Blog'
+import Navbar from './components/Navbar'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs } from './reducers/blogReducer'
-import { authenticateUser, logoutUser } from './reducers/loginReducer'
+import { authenticateUser } from './reducers/loginReducer'
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
   const blogFormRef = useRef()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
-
-  const blogs = useSelector((state) => state.blogs)
   const loggedUser = useSelector((state) => state.login)
-
-  const sortedBlogs = blogs.toSorted((a, b) => {
-    return b.likes - a.likes
-  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -32,12 +27,9 @@ const App = () => {
     }
   }, [])
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
-
   return (
     <>
+      <Navbar />
       <Notification />
       {!loggedUser.token ? (
         <LoginForm />
@@ -48,13 +40,12 @@ const App = () => {
           </Togglable>
           <div>
             <h2>blogs</h2>
-            <div>
-              {loggedUser.name} logged in
-              <button onClick={handleLogout}>logout</button>
-            </div>
-            {sortedBlogs.map((blog) => (
-              <Blog key={blog.id} blog={blog} />
-            ))}
+            <Routes>
+              <Route path="/blogs/:id" element={<Blog />} />
+              <Route path="/users/:id" element={<User />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/" element={<Blogs />} />
+            </Routes>
           </div>
         </>
       )}

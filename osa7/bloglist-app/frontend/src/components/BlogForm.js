@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
+import { useNavigate } from 'react-router-dom'
 
 const BlogForm = ({ blogFormRef }) => {
   let initialValues = {
@@ -13,6 +14,8 @@ const BlogForm = ({ blogFormRef }) => {
   const [newBlog, setNewBlog] = useState(initialValues)
 
   const dispatch = useDispatch()
+
+  const navigate = useNavigate()
 
   const handleTitleChange = (event) => {
     setNewBlog({ ...newBlog, title: event.target.value })
@@ -31,6 +34,7 @@ const BlogForm = ({ blogFormRef }) => {
     blogFormRef.current.toggleVisibility()
     dispatch(createBlog(newBlog))
     setNewBlog(initialValues)
+    navigate('/')
   }
 
   return (
