@@ -7,9 +7,6 @@ const User = () => {
 
   const user = match ? users.find((user) => user.id === match.params.id) : null
 
-  console.log('user', user)
-  console.log('match', match)
-
   if (!user) {
     return null
   }

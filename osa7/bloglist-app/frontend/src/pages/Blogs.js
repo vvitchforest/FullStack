@@ -1,15 +1,7 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { initializeBlogs } from '../reducers/blogReducer'
 
 const Blogs = () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
-
   const blogs = useSelector((state) => state.blogs)
 
   const sortedBlogs = blogs.toSorted((a, b) => {
@@ -18,6 +10,7 @@ const Blogs = () => {
 
   return (
     <div>
+      <h2>Blogs</h2>
       <ul>
         {sortedBlogs.map((blog) => (
           <li key={blog.id}>

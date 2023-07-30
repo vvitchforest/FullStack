@@ -35,7 +35,6 @@ export const { deleteBlog, updateBlog, appendBlog, setBlogs } =
 export const initializeBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
-    console.log('blogs', blogs)
     dispatch(setBlogs(blogs))
   }
 }
@@ -82,6 +81,21 @@ export const removeBlog = (id) => {
       dispatch(deleteBlog(id))
     } catch (error) {
       dispatch(displayNotification('delete failed', 'error'))
+    }
+  }
+}
+
+export const commentBlog = (blogObject, comment) => {
+  return async (dispatch) => {
+    try {
+      const blogToComment = {
+        ...blogObject,
+        comments: blogObject.comments.concat(comment)
+      }
+      const commentedBlog = await blogService.comment(blogToComment.id, comment)
+      dispatch(updateBlog(commentedBlog))
+    } catch (error) {
+      dispatch(displayNotification('comment failed', 'error'))
     }
   }
 }

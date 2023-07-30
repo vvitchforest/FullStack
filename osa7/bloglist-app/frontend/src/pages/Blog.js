@@ -1,6 +1,7 @@
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMatch, useNavigate } from 'react-router-dom'
+import CommentForm from '../components/CommentForm'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -8,14 +9,12 @@ const Blog = () => {
   const loggedUser = useSelector((state) => state.login)
 
   const match = useMatch('/blogs/:id')
+
   const blogs = useSelector((state) => state.blogs)
 
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
 
   const navigate = useNavigate()
-
-  console.log('blog', blog)
-  console.log('match', match)
 
   if (!blog) {
     return null
@@ -37,13 +36,13 @@ const Blog = () => {
     <div className="blog-container">
       <h2>{blog.title}</h2>
       <a href="#">{blog.url}</a>
-      <p>Added by {blog.author}</p>
       <div>
         <span>{blog.likes} likes</span>
         <button onClick={handleLike} className="like-btn">
           like
         </button>
       </div>
+      <p>Added by {blog.author}</p>
 
       {loggedUser.username === blog.user.username && (
         <button
@@ -59,6 +58,17 @@ const Blog = () => {
         >
           remove
         </button>
+      )}
+      <h3>Comments</h3>
+      <CommentForm blog={blog} />
+      {blog.comments.length ? (
+        <ul>
+          {blog.comments.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>this blog has no comments</p>
       )}
     </div>
   )

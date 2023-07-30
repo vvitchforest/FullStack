@@ -11,27 +11,36 @@ import Togglable from './components/Togglable'
 import { useSelector, useDispatch } from 'react-redux'
 import { authenticateUser } from './reducers/loginReducer'
 import { Routes, Route } from 'react-router-dom'
+import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/userReducer'
 
 const App = () => {
   const blogFormRef = useRef()
   const dispatch = useDispatch()
 
   const loggedUser = useSelector((state) => state.login)
+  const authenticated = loggedUser.token !== null
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(authenticateUser(user))
-      console.log(user)
     }
   }, [])
+
+  useEffect(() => {
+    if (authenticated) {
+      dispatch(initializeBlogs())
+      dispatch(initializeUsers())
+    }
+  }, [dispatch, authenticated])
 
   return (
     <>
       <Navbar />
       <Notification />
-      {!loggedUser.token ? (
+      {!authenticated ? (
         <LoginForm />
       ) : (
         <>
@@ -39,7 +48,7 @@ const App = () => {
             <BlogForm blogFormRef={blogFormRef} />
           </Togglable>
           <div>
-            <h2>blogs</h2>
+            <h2>Blog app</h2>
             <Routes>
               <Route path="/blogs/:id" element={<Blog />} />
               <Route path="/users/:id" element={<User />} />

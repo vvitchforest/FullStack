@@ -22,8 +22,6 @@ const Navbar = () => {
     dispatch(logoutUser())
   }
 
-  console.log('loggedUser', loggedUser)
-
   return (
     <nav>
       <ul style={navbarStyle}>
