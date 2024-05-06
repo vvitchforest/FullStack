@@ -1,5 +1,16 @@
 import { useState, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Button } from '../styles/Button.styled'
+
+const StyledTogglableContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem 2rem 2rem;
+  width: 50%;
+  border-radius: 0.5rem;
+  border: 1px solid #7c4dff;
+`
 
 const Togglable = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
@@ -18,15 +29,22 @@ const Togglable = forwardRef((props, ref) => {
   })
 
   return (
-    <div>
+    <section>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <Button $primary $large onClick={toggleVisibility}>
+          {props.buttonLabel}
+        </Button>
       </div>
-      <div style={showWhenVisible} className="togglableContent">
+      <StyledTogglableContent
+        style={showWhenVisible}
+        className="togglableContent"
+      >
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
-      </div>
-    </div>
+        <Button $wide onClick={toggleVisibility} style={{ margin: 'auto' }}>
+          cancel
+        </Button>
+      </StyledTogglableContent>
+    </section>
   )
 })
 

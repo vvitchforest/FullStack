@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { commentBlog } from '../reducers/blogReducer'
+import styled from 'styled-components'
+import { StyledForm } from '../styles/Form.styled'
+import { Button } from '../styles/Button.styled'
+
+const StyledCommentForm = styled(StyledForm)`
+  flex-direction: row;
+  width: 50%;
+`
 
 const CommentForm = ({ blog }) => {
   const [newComment, setNewComment] = useState('')
@@ -17,10 +25,15 @@ const CommentForm = ({ blog }) => {
   }
 
   return (
-    <form onSubmit={addNewComment}>
-      <input type="text" value={newComment} onChange={handleInputChange} />
-      <button type="submit">add comment</button>
-    </form>
+    <StyledCommentForm onSubmit={addNewComment}>
+      <input
+        type="text"
+        placeholder="add new comment..."
+        value={newComment}
+        onChange={handleInputChange}
+      />
+      <Button type="submit">comment</Button>
+    </StyledCommentForm>
   )
 }
 

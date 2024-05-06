@@ -12,7 +12,7 @@ const User = () => {
   }
 
   return (
-    <div>
+    <article>
       <h2>{user.username}</h2>
       <h3>Added blogs</h3>
       <ul>
@@ -20,7 +20,7 @@ const User = () => {
           <li key={index}>{blog.title}</li>
         ))}
       </ul>
-    </div>
+    </article>
   )
 }
 

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../styles/Button.styled'
+import { StyledForm } from '../styles/Form.styled'
 
 const BlogForm = ({ blogFormRef }) => {
   let initialValues = {
@@ -38,45 +40,44 @@ const BlogForm = ({ blogFormRef }) => {
   }
 
   return (
-    <>
-      <h2>create new</h2>
-      <form ref={blogFormRef} onSubmit={addNewBlog}>
-        <div>
-          title
-          <input
-            type="text"
-            value={newBlog.title}
-            name="Title"
-            onChange={handleTitleChange}
-            data-testid="input-title"
-            id="blog-title"
-          />
-        </div>
-        <div>
-          author
-          <input
-            type="text"
-            value={newBlog.author}
-            name="Password"
-            onChange={handleAuthorChange}
-            data-testid="input-author"
-            id="blog-author"
-          />
-        </div>
-        <div>
-          url
-          <input
-            type="text"
-            value={newBlog.url}
-            name="Url"
-            onChange={handleUrlChange}
-            data-testid="input-url"
-            id="blog-url"
-          />
-        </div>
-        <button type="submit">add blog</button>
-      </form>
-    </>
+    <div>
+      <h2 style={{ marginTop: 0, paddingTop: 0 }}>create new</h2>
+      <StyledForm ref={blogFormRef} onSubmit={addNewBlog}>
+        <label htmlFor="blog-title">Title</label>
+        <input
+          type="text"
+          value={newBlog.title}
+          name="Title"
+          onChange={handleTitleChange}
+          data-testid="input-title"
+          id="blog-title"
+        />
+
+        <label htmlFor="blog-author">Author</label>
+        <input
+          type="text"
+          value={newBlog.author}
+          name="Password"
+          onChange={handleAuthorChange}
+          data-testid="input-author"
+          id="blog-author"
+        />
+
+        <label htmlFor="blog-url">Url</label>
+        <input
+          type="text"
+          value={newBlog.url}
+          name="Url"
+          onChange={handleUrlChange}
+          data-testid="input-url"
+          id="blog-url"
+        />
+
+        <Button $primary $wide type="submit" style={{ marginBottom: '1rem' }}>
+          add blog
+        </Button>
+      </StyledForm>
+    </div>
   )
 }
 

@@ -1,5 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+
+const StyledNotification = styled.div`
+  margin: 2rem 10vw;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  width: 50%;
+  border-radius: 0.5rem;
+`
 
 const Notification = () => {
   const notification = useSelector((state) => {
@@ -7,35 +16,21 @@ const Notification = () => {
   })
 
   const success = {
-    color: 'green',
-    border: '1px solid green',
-    backgroundColor: 'lightgrey',
-    borderRadius: 5,
-    margin: 5,
-    padding: '5px 10px',
-    fontSize: 20,
-    width: '50%'
+    backgroundColor: '#b9f6ca'
   }
 
   const error = {
-    color: 'red',
-    border: '1px solid red',
-    backgroundColor: 'lightgrey',
-    borderRadius: 5,
-    margin: 5,
-    padding: '5px 10px',
-    fontSize: 20,
-    width: '50%'
+    backgroundColor: '#ff8a80'
   }
 
   if (notification.message) {
     return (
-      <div
+      <StyledNotification
         style={notification.type === 'success' ? success : error}
         className="notification"
       >
         {notification.message}
-      </div>
+      </StyledNotification>
     )
   } else {
     return null

@@ -48,7 +48,6 @@ const App = () => {
             <BlogForm blogFormRef={blogFormRef} />
           </Togglable>
           <div>
-            <h2>Blog app</h2>
             <Routes>
               <Route path="/blogs/:id" element={<Blog />} />
               <Route path="/users/:id" element={<User />} />

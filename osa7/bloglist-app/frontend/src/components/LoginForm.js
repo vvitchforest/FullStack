@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/loginReducer'
+import styled from 'styled-components'
+import { StyledForm } from '../styles/Form.styled'
+import { Button } from '../styles/Button.styled'
+
+const StyledLoginForm = styled(StyledForm)`
+  width: 25%;
+  margin: auto;
+`
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -21,34 +29,39 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <h2>log in to application</h2>
-      <form onSubmit={handleLogin} id="login-form">
-        <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-            id="username"
-          />
-        </div>
-        <div>
-          password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-            id="password"
-          />
-        </div>
-        <button id="login-btn" type="submit">
+    <div>
+      <h2 style={{ textAlign: 'center', margin: '2rem' }}>
+        log in to Blog App
+      </h2>
+      <StyledLoginForm onSubmit={handleLogin} id="login-form">
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          value={username}
+          name="Username"
+          onChange={({ target }) => setUsername(target.value)}
+          id="username"
+          placeholder="username"
+        />
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          value={password}
+          name="Password"
+          onChange={({ target }) => setPassword(target.value)}
+          id="password"
+          placeholder="password"
+        />
+        <Button
+          $primary
+          id="login-btn"
+          type="submit"
+          style={{ width: '100%', marginTop: '0.5rem' }}
+        >
           login
-        </button>
-      </form>
-    </>
+        </Button>
+      </StyledLoginForm>
+    </div>
   )
 }
 
